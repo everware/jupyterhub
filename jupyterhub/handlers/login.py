@@ -58,7 +58,7 @@ class LoginHandler(BaseHandler):
             data[arg] = self.get_argument(arg)
 
         username = data['username']
-        repourl = data['repourl']
+        repo_url = data['repourl']
         authorized = yield self.authenticate(data)
         if authorized:
             user = self.user_from_username(username)
@@ -67,7 +67,9 @@ class LoginHandler(BaseHandler):
                 status = yield user.spawner.poll()
                 already_running = (status == None)
             if not already_running:
-                yield self.spawn_single_user(user, repourl)
+                yield self.spawn_single_user(user, repo_url)
+            user.last_repo_url = repo_url
+            self.db.commit()
             self.set_login_cookie(user)
             next_url = self.get_argument('next', default='')
             if not next_url.startswith('/'):

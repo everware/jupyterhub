@@ -278,6 +278,7 @@ class User(Base):
     server = relationship(Server, primaryjoin=_server_id == Server.id)
     admin = Column(Boolean, default=False)
     last_activity = Column(DateTime, default=datetime.utcnow)
+    last_repo_url = Column(Unicode)
     
     api_tokens = relationship("APIToken", backref="user")
     cookie_id = Column(Unicode, default=new_token)
@@ -349,13 +350,13 @@ class User(Base):
         
         api_token = self.new_api_token()
         db.commit()
-        
+
         spawner = self.spawner = spawner_class(
             config=config,
             user=self,
             hub=hub,
             db=db,
-            repo=repo_url
+            repo_url=repo_url
         )
         # we are starting a new server, make sure it doesn't restore state
         spawner.clear_state()
