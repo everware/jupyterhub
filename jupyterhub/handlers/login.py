@@ -58,6 +58,7 @@ class LoginHandler(BaseHandler):
             data[arg] = self.get_argument(arg)
 
         username = data['username']
+        repourl = data['repourl']
         authorized = yield self.authenticate(data)
         if authorized:
             user = self.user_from_username(username)
