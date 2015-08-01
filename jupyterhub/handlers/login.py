@@ -67,7 +67,7 @@ class LoginHandler(BaseHandler):
                 status = yield user.spawner.poll()
                 already_running = (status == None)
             if not already_running:
-                yield self.spawn_single_user(user)
+                yield self.spawn_single_user(user, repourl)
             self.set_login_cookie(user)
             next_url = self.get_argument('next', default='')
             if not next_url.startswith('/'):
