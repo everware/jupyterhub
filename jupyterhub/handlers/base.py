@@ -252,13 +252,14 @@ class BaseHandler(RequestHandler):
         return self.settings.get('spawner_class', LocalProcessSpawner)
 
     @gen.coroutine
-    def spawn_single_user(self, user):
+    def spawn_single_user(self, user, repo_url):
         if user.spawn_pending:
             raise RuntimeError("Spawn already pending for: %s" % user.name)
         tic = IOLoop.current().time()
         
         f = user.spawn(
             spawner_class=self.spawner_class,
+            repo_url=repo_url,
             base_url=self.base_url,
             hub=self.hub,
             config=self.config,
