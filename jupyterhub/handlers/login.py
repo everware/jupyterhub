@@ -14,6 +14,7 @@ class LogoutHandler(BaseHandler):
     def get(self):
         user = self.get_current_user()
         if user:
+            user.spawner = None
             self.log.info("User logged out: %s", user.name)
         self.clear_login_cookie()
         self.redirect(self.hub.server.base_url, permanent=False)
