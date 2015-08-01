@@ -710,7 +710,7 @@ class JupyterHub(Application):
                 continue
             self.log.debug("Loading state for %s from db", user.name)
             user.spawner = spawner = self.spawner_class(
-                user=user, hub=self.hub, config=self.config, db=self.db,
+                user=user, hub=self.hub, config=self.config, db=self.db, repo_url=user.last_repo_url
             )
             status = yield spawner.poll()
             if status is None:
