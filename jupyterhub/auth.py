@@ -214,4 +214,9 @@ class PAMAuthenticator(LocalAuthenticator):
         bpassword = data['password'].encode(self.encoding)
         if simplepam.authenticate(busername, bpassword, service=self.service):
             return username
-    
+
+
+class NoAuthenticator(Authenticator):
+    @gen.coroutine
+    def authenticate(self, handler, data):
+        return data['username']

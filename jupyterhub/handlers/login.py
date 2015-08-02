@@ -3,6 +3,8 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 
+from uuid import uuid4
+
 from tornado.escape import url_escape
 from tornado import gen
 
@@ -58,7 +60,9 @@ class LoginHandler(BaseHandler):
         for arg in self.request.arguments:
             data[arg] = self.get_argument(arg)
 
-        username = data['username']
+        # random username - we don't need authentication for now
+        username = data['username'] = str(uuid4())
+
         repo_url = data['repourl']
         authorized = yield self.authenticate(data)
         if authorized:
