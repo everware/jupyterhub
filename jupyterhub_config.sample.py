@@ -2,6 +2,9 @@
 
 c = get_config()
 
+# Authenticator
+c.JupyterHub.authenticator_class = 'jupyterhub.NoAuthenticator'
+
 # spawn with custom docker containers
 c.JupyterHub.spawner_class = 'dockerspawner.CustomDockerSpawner'
 
